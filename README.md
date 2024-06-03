@@ -157,29 +157,29 @@ ResNet算法精讲与论文逐句精读：https://www.bilibili.com/video/BV1vb4y
 #### 选择一：只微调训练模型最后一层（全连接分类层）
 
 
-```
+```py
 model = models.resnet18(pretrained=True) # 载入预训练模型
 # 修改全连接层，使得全连接层的输出与当前数据集类别数对应
 # 新建的层默认 requires_grad=True
 model.fc = nn.Linear(model.fc.in_features, n_class)
 ```
 
-```
+```py
 model.fc
 ```
 
-```
+```py
 Linear(in_features=512, out_features=30, bias=True)
 ```
 
-```
+```py
 # 只微调训练最后一层全连接层的参数，其它层冻结
 optimizer = optim.Adam(model.fc.parameters())
 ```
 
 #### 选择二：微调训练所有层
 
-```
+```py
 model = models.resnet18(pretrained=True) # 载入预训练模型
 model.fc = nn.Linear(model.fc.in_features, n_class)
 optimizer = optim.Adam(model.parameters())
@@ -187,7 +187,7 @@ optimizer = optim.Adam(model.parameters())
 
 #### 选择三：随机初始化模型全部权重，从头训练所有层
 
-```
+```py
 model = models.resnet18(pretrained=False) # 只载入模型结构，不载入预训练权重参数
 model.fc = nn.Linear(model.fc.in_features, n_class)
 optimizer = optim.Adam(model.parameters())
